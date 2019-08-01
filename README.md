@@ -1,1 +1,1 @@
-# Video_self_annotation
+# Video Object Self-Annotation
