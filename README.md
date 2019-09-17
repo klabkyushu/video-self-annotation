@@ -3,6 +3,13 @@ Video Object Bounding Box Self-Annotation
 
 Visit our [Project Page](https://sites.google.com/view/ltnghia/research/video_self_annotation) for accessing the paper, and the pre-computed results.
 
+Installation
+------------------
+
+[Video Mask R-CNN](https://github.com/ltnghia/video-maskrcnn)
+
+[Annotation Interface](https://github.com/ltnghia/video-object-annotation-interface)
+
 Citation
 --------------
 
