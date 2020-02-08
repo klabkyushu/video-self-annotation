@@ -1,7 +1,7 @@
 Video Object Bounding Box Self-Annotation 
 =====================================================================================
 
-Visit our [Project Page](https://sites.google.com/view/ltnghia/research/video_self_annotation) for accessing the paper, and the pre-computed results.
+Visit our [Project Page](https://sites.google.com/view/ltnghia/research/video-self-annotation) for accessing the paper, and the pre-computed results.
 
 Installation
 ------------------
