@@ -22,4 +22,7 @@ Please cite the following paper:
       year = {2020}
     }
 
+------------------
+The code is used for academic purpose only.
+
 Contact: [Trung-Nghia Le](https://sites.google.com/view/ltnghia).
