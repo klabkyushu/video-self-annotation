@@ -23,6 +23,6 @@ Please cite the following paper:
     }
 
 ------------------
-The code is used for academic purpose only.
+The code is released under the [Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License](https://creativecommons.org/licenses/by-nc-sa/3.0/), and used for academic purpose only.
 
 Contact: [Trung-Nghia Le](https://sites.google.com/view/ltnghia).
