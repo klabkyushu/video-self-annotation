@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     video = info['annotated_video']
     input_path = os.path.join(
-            info['training_dir'], video, 'inference', 'ro_jdd_test_cocostyle', 'bbox.json')
+            info['training_dir'], video, 'inference', 'ro_bdd_test_cocostyle', 'bbox.json')
 
     dataset_dir = info['dataset_dir']
 
