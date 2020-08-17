@@ -222,7 +222,7 @@ def create_train():
                                     ann['image_id'] = image['id']
                                     ins_id += 1
                                 annotations.extend(data)
-                                tq.set_description('Video {}'.format(os.path.join(video, filename)))
+                                tq.set_description('Video {}'.format(os.path.join(video, file_name)))
 
     dataset['annotations'] = annotations
     dataset['videos'] = videos
