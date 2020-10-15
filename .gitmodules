@@ -1,0 +1,9 @@
+[submodule "vendors/video-maskrcnn"]
+	path = vendors/video-maskrcnn
+	url = https://github.com/ltnghia/video-maskrcnn.git
+[submodule "vendors/apex"]
+	path = vendors/apex
+	url = https://github.com/NVIDIA/apex.git
+[submodule "vendors/cocoapi"]
+	path = vendors/cocoapi
+	url = https://github.com/cocodataset/cocoapi.git
