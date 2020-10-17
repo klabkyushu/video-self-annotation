@@ -65,17 +65,17 @@ Since the image requires CUDA support, make sure NVIDIA container runtime is ena
 Run the container with
 
 ```bash
-$ docker run -d --gpus all \
+$ docker run -d --rm --gpus all \
   -v $(pwd):/home/user/video-self-annotation \
-  -p 22:60022 \
-  -p 5901:65901 \
+  -p 8022:22 \
+  -p 8000:5901 \
   video-self-annotation
 ```
 
 Then you can ssh to the container by
 
 ```bash
-$ ssh user@localhost -p 60022
+$ ssh user@localhost -p 8022
 ```
 
 To enable VNC, run the following after SSH to the container as `user`,
@@ -85,7 +85,7 @@ $ chmod +x docker/vnc.sh
 $ docker/vnc.sh
 ```
 
-Then you can use TurboVNC viewer to view visual results by connecting to `localhost:5901`.
+Then you can use TurboVNC viewer to view visual results by connecting to `localhost:8000`.
 
 ## Quick Start
 
