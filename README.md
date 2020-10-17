@@ -9,11 +9,87 @@ We tested the code on python 3.7, PyTorch 1.2.0 and CUDA 10.1
 
 ## Installation
 
-Require to install [Video Mask R-CNN](https://github.com/ltnghia/video-maskrcnn).
+Use the following command to clone this repository recursively.
 
-If you need to run Self-Annotation, please install 
-[Annotation Interface](https://github.com/ltnghia/video-object-annotation-interface) and interfere the training process in [run.sh](run.sh).
+```bash
+$ git clone --recursive https://github.com/klabkyushu/video-self-annotation.git
+```
 
+### Virtual Environment
+
+For this system, it is recommanded to create a python virtual envrionment with virtualenv or conda.
+
+In the case of virtualenv, use the following command to create a virtual environment,
+
+```bash
+$ virtualenv -p python3.7 .venv
+```
+
+and enter the environment by
+
+```bash
+$ source .venv/bin/activate
+```
+
+### Dependencies
+
+Important dependencies:
+
+- Python 3.7
+- CUDA 10.1
+- PyTorch 1.2.0
+- opencv-python
+- cocoapi/PythonAPI
+- apex
+- video-maskrcnn
+
+**Please following the official instructions to install CUDA and corresponding PyTorch.**
+
+After CUDA and PyTorch are installed, run the script `install.sh` to install other dependencies.
+
+```bash
+$ chmod +x install.sh
+$ ./install.sh
+```
+
+## Docker
+
+If you prefer docker container, you can build the image from docker/Dockerfile with the following command
+
+```bash
+$ docker build -t video-self-annotation -f docker/Dockerfile .
+```
+
+Since the image requires CUDA support, make sure NVIDIA container runtime is enabled before running the container. Also, please set your UID, GID and ssh-key (optional) before running the container in `docker/entrypoint.sh` because all codes are mounted instead of copying to the image for fast changes.
+
+Run the container with
+
+```bash
+$ docker run -d --gpus all \
+  -v $(pwd):/home/user/video-self-annotation \
+  -p 22:60022 \
+  -p 5901:65901 \
+  video-self-annotation
+```
+
+Then you can ssh to the container by
+
+```bash
+$ ssh user@localhost -p 60022
+```
+
+To enable VNC, run the following after SSH to the container as `user`,
+
+```bash
+$ chmod +x docker/vnc.sh
+$ docker/vnc.sh
+```
+
+Then you can use TurboVNC viewer to view visual results by connecting to `localhost:5901`.
+
+## Quick Start
+
+TODO: Prepare an example.
 
 ## Prepare Data
 
