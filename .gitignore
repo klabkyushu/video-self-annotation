@@ -1,0 +1,4 @@
+annotation/CityScapes
+annotation/*.json
+**/__pycache__
+nohup.out
