@@ -1,4 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+project_root=$(pwd)
+
+cd $project_root/annotation
 
 python init_root_dirs.py --iter 0
 python create_dataset.py
@@ -44,3 +48,5 @@ python run_rcnn.py --test true
 python init_root_dirs.py --iter 3
 python generate_raw_ann_from_rcnn_results.py
 python ulti.py
+
+cd $project_root
