@@ -6,12 +6,16 @@ gid="1000"
 ssh_pub_key="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDHtCiHFN/OiOKJNRQZOXekZB2P97MAtCe0NqwFKiaNWXAF9q8Yek8NzPMXNgBJQ30a6kqunuPZxjzH6YybpPB+PJ0jcqIRBiTzJUIubU7MZIbKrtHmFfmEMGHO218g/LIvVXRmn/TVn6T8VVAJOXsrgLchuYou+24yXmQmQPMTc69zKndOr2GPRIF+JteG8+KiuUBwCYub4nWqdPBy6r+5I2p7PhHPgStqnutzsF/hhu0sz01kqH3nCLAEUINFJ3FjOpcsF5x4/s+kIDF4qKb/QVrq1sPkKB5l13gs663LBDmWUB93B12nXsr9+VXhzwBle5EmC3hQ1mc0rrnz5/Zd drpap@DESKTOP-R93UP31"
 
 # Set up PATH
-echo "export PATH=$PATH" >> /home/user/.bashrc
+echo "export PATH=/home/user/.local/bin:$PATH" >> /home/user/.bashrc
+echo "export LC_ALL=C.UTF-8" >> /home/user/.bashrc
+echo "export LANG=C.UTF-8" >> /home/user/.bashrc
 
 # Set up uid, gid.
 usermod -u $uid user
 groupmod -g $gid user
+usermod -aG sudo user
 echo "user:$password" | chpasswd
+echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Set up the SSH key.
 mkdir -p /home/user/.ssh
@@ -48,6 +52,9 @@ filename="CIResNet22_RPN.pth"
 curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}" > /dev/null
 curl -Lb ./cookie "https://drive.google.com/uc?export=download&confirm=`awk '/download/ {print $NF}' ./cookie`&id=${fileid}" -o ${filename}
 rm ./cookie
+
+cd $project_root
+pip install -e ./annotation
 
 # Modify permissions.
 chown -R $uid:$gid /home/user

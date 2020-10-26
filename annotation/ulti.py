@@ -114,14 +114,14 @@ def visualize(dir_root, display=False, category_file=None):
                     image = cv2.rectangle(image, tuple(top_left), tuple(bottom_right),
                                           tuple(colors[bbox['category_id']]), 5)
 
-                    # label = categories[int(bbox['category_id'])]
-                    # txt = label
-                    # t_size = cv2.getTextSize(txt, cv2.FONT_HERSHEY_PLAIN, 3, 2)[0]
-                    # image = cv2.rectangle(image, tuple(top_left),
-                    #                       tuple((top_left[0] + t_size[0] + 5, top_left[1] + int(t_size[1] * 1) + 10)),
-                    #                       tuple(colors[bbox['category_id']]), -1)
-                    # cv2.putText(image, txt, (int(top_left[0] + 5), top_left[1] + t_size[1] + 5), cv2.FONT_HERSHEY_PLAIN,
-                    #             3, [0, 0, 0], 2)
+                    label = categories[int(bbox['category_id'])]
+                    txt = '{}:{}:{}'.format(label, bbox['track_id'], round(bbox['score'] * 100))
+                    t_size = cv2.getTextSize(txt, cv2.FONT_HERSHEY_PLAIN, 3, 2)[0]
+                    image = cv2.rectangle(image, tuple(top_left),
+                                          tuple((top_left[0] + t_size[0] + 5, top_left[1] + int(t_size[1] * 1) + 10)),
+                                          tuple(colors[bbox['category_id']]), -1)
+                    cv2.putText(image, txt, (int(top_left[0] + 5), top_left[1] + t_size[1] + 5), cv2.FONT_HERSHEY_PLAIN,
+                                3, [0, 0, 0], 2)
 
             cv2.imwrite(os.path.join(dir_output, filename + '.jpg'), image)
             if display:
@@ -129,7 +129,9 @@ def visualize(dir_root, display=False, category_file=None):
                 cv2.imshow('demo', image)
                 cv2.waitKey(0)
 
+def main():
+    info = load_json()
+    visualize(os.path.join(info['dataset_dir'], info['experiment'], 'Smooth_label', 'Videos'))
 
 if __name__ == "__main__":
-    info = load_json()
-    visualize(os.path.join(info['dataset_dir'], info['experiment'], 'Raw_Detection', 'Raw', 'Json'))
+    main()

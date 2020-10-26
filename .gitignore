@@ -1,4 +1,9 @@
 annotation/CityScapes
-annotation/*.json
+*.json
 **/__pycache__
-nohup.out
+*.out
+*.pyc
+*.egg-info
+*.jpg
+*.png
+*.pth

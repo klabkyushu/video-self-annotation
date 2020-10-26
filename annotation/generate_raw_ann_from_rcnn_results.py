@@ -3,7 +3,7 @@ import ulti
 import tqdm
 from shutil import copyfile
 
-if __name__ == "__main__":
+def main():
     ulti.copy_model()
 
     info = ulti.load_json()
@@ -65,4 +65,5 @@ if __name__ == "__main__":
                 ulti.write_json(annotations, path)
 
 
-
+if __name__ == "__main__":
+    main()

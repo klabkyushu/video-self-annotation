@@ -43,7 +43,7 @@ Important dependencies:
 - apex
 - video-maskrcnn
 
-**Please following the official instructions to install CUDA and corresponding PyTorch.**
+**Please following the official instructions to install CUDA and PyTorch.**
 
 After CUDA and PyTorch are installed, run the script `install.sh` to install other dependencies.
 
@@ -52,23 +52,30 @@ $ chmod +x install.sh
 $ ./install.sh
 ```
 
+Finally, install `video-self-annotation` by
+
+```bash
+$ pip install -e annotation
+$ annotate --help
+```
+
 ## Docker
 
-If you prefer docker container, you can build the image from docker/Dockerfile with the following command
+If you prefer a docker container, you can build the image from docker/Dockerfile with the following command
 
 ```bash
 $ docker build -t video-self-annotation -f docker/Dockerfile .
 ```
 
-Since the image requires CUDA support, make sure NVIDIA container runtime is enabled before running the container. Also, please set your UID, GID and ssh-key (optional) before running the container in `docker/entrypoint.sh` because all codes are mounted instead of copying to the image for fast changes.
+Since the image requires CUDA support, make sure [NVIDIA container runtime](https://github.com/NVIDIA/nvidia-docker) is enabled before running the container. Also, please set your UID, GID and ssh-key (optional) before running the container in `docker/entrypoint.sh` because all codes are mounted instead of copying to the image for fast changes.
 
 Run the container with
 
 ```bash
-$ docker run -d --rm --gpus all \
+$ docker run -d --rm --gpus all --name annotation \
   -v $(pwd):/home/user/video-self-annotation \
   -p 8022:22 \
-  -p 8000:5901 \
+  -p 8901:5901 \
   video-self-annotation
 ```
 
@@ -85,27 +92,29 @@ $ chmod +x docker/vnc.sh
 $ docker/vnc.sh
 ```
 
-Then you can use TurboVNC viewer to view visual results by connecting to `localhost:8000`.
+Then you can use TurboVNC viewer to view visual results by connecting to `localhost:8901`.
+
+Make sure to use `docker logs annotation` to check whether the container is ready before executing any annotation.
 
 ## Quick Start
 
-TODO: Prepare an example.
+First, download the example data `aachen` in `data`.
 
-## Prepare Data
-
-```
-mkdir -p -- CityScapes
-cd CityScapes
-mkdir -p -- val
-cd val
-mkdir -p -- Raw
-cd Raw
+```bash
+$ cd data
+$ chmod +x scripts/dl_aachen.sh
+$ scripts/dl_aachen.sh
+$ cd ..
 ```
 
-Download [leftImg8bit_sequence_trainvaltest.zip (324GB)](https://www.cityscapes-dataset.com/downloads) and extract all sequences of val-set to CityScapes/val/Raw. 
-For example, ./CityScapes/val/Raw/frankfurt/frankfurt_000000_000275_leftImg8bit.jpg
+Then, under the root directory, execute the annotation by
 
-Download and extract [our pre-trained model](https://drive.google.com/file/d/10bqv7fUeUEdT1Q9T617QTcttit5EJi76/view?usp=sharing) to CityScapes/val/Initial_model
+```bash
+$ annotate run --images data/aachen \
+    --output ./results/aachen \
+    --seq-name aachen
+```
+
 
 ## Citations
 Please consider citing this project in your publications if it helps your research:
@@ -126,4 +135,3 @@ The code is released under the [Creative Commons Attribution-NonCommercial-Share
 ## Contact
 
 [Trung-Nghia Le](https://sites.google.com/view/ltnghia).
-

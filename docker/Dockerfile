@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN=true
 RUN apt-get update && \
     # Common packages
-    apt-get install -y curl expect cmake \
+    apt-get install -y curl expect cmake sudo \
     # ssh
     openssh-server \
     # xfce desktop enviroment

@@ -14,3 +14,4 @@ tensorboard
 tensorboard_logger
 future
 visdom
+Click
