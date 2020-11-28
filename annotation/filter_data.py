@@ -15,9 +15,10 @@ def check_condition(bbox, height, width):
     return bbox
 
 
-def filter_data():
+def filter_data(videonames=[]):
     info = ulti.load_json()
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
     tq = tqdm.tqdm(total=len(videonames))
     frequency_threshold = 4
