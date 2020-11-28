@@ -107,14 +107,27 @@ $ scripts/dl_aachen.sh
 $ cd ..
 ```
 
-Then, under the root directory, execute the annotation by
+Then, under the root directory, add `aachen` to the workspace.
 
 ```bash
-$ annotate run --images data/aachen \
-    --output ./results/aachen \
-    --seq-name aachen
+$ annotate add aachen --images data/aachen
 ```
 
+Use `annotate stat` to show the information of all image sequences in the workspace.
+
+Then, use the following to perform an annotation task and to output the result.
+
+```bash
+$ annotate run aachen --output results/aachen
+```
+
+Finally, use the following to view the result.
+
+```bash
+$ annotate play -r results/aachen
+```
+
+To utilize other functionalities, feel free to explore the commands with `--help`.
 
 ## Citations
 Please consider citing this project in your publications if it helps your research:

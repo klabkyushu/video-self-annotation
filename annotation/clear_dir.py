@@ -2,8 +2,8 @@ import os
 import ulti
 import shutil
 
-def main():
-    ulti.copy_model()
+def main(model_path=''):
+    ulti.copy_model(model_path=model_path)
 
     info = ulti.load_json()
     training_dir = info['training_dir']

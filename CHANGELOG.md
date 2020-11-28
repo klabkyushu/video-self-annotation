@@ -1,5 +1,22 @@
 # CHANGELOG
 
+## 0.2.0
+
+- Add optional sequence selection to the following files:
+    - `add_instances.py`
+    - `clear_dir.py`
+    - `create_dataset.py`
+    - `create_tubelets.py`
+    - `filter_data.py`
+    - `generate_raw_ann_from_rcnn_results.py`
+    - `track_instances.py`
+    - `ulti.py`
+- Add commands `stat`, `add`, `remove`, `play`. Remove command `show`. Modify command `run`.
+    - Now the program will manage a set of image sequences. Sequences are added by `add` and removed by `remove`. `run` will not add sequences anymore, but choose a set of sequences to perform annotation.
+    - In addition to play result sequences, command `play` can play raw sequences directly now.
+    - Evaluation only option of `run` is enabled.
+    - Modify `README.md` to satisfy this new version.
+
 ## 0.1.0
 
 - Change the directory structure. All codes are put into `annotation` as a python package.

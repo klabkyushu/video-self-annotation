@@ -41,9 +41,10 @@ def bb_intersection_over_union(rectA, rectB):
     return iou
 
 
-def run_trackers():
+def run_trackers(videonames=[]):
     info = ulti.load_json()
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
     tq = tqdm.tqdm(total=len(videonames))
     alpha = 0.5

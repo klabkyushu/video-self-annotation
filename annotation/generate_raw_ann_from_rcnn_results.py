@@ -3,8 +3,8 @@ import ulti
 import tqdm
 from shutil import copyfile
 
-def main():
-    ulti.copy_model()
+def main(model_path=''):
+    ulti.copy_model(model_path=model_path)
 
     info = ulti.load_json()
 

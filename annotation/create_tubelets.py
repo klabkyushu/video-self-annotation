@@ -7,10 +7,11 @@ import json
 import numpy as np
 
 
-def init_tracklet():
+def init_tracklet(videonames=[]):
     info = ulti.load_json()
     ulti.make_dir(os.path.join(info['dataset_dir'], info['experiment'], 'Tracklet'))
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
     tq = tqdm.tqdm(total=len(videonames))
     for videoname in videonames:
@@ -127,10 +128,11 @@ def init_tracklet():
                         file=os.path.join(info['dataset_dir'], info['experiment'], 'Tracklet', videoname + '.json'))
 
 
-def create_tubelet():
+def create_tubelet(videonames=[]):
     info = ulti.load_json()
     ulti.make_dir(os.path.join(info['dataset_dir'], info['experiment'], 'Tubelet', 'Tubelet'))
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
     tq = tqdm.tqdm(total=len(videonames))
     for videoname in videonames:
@@ -224,9 +226,10 @@ def most_frequent(ids, weights=None):
         return max(set(ids), key=ids.count), None
 
 
-def smoothen_label():
+def smoothen_label(videonames=[]):
     info = ulti.load_json()
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
     tq = tqdm.tqdm(total=len(videonames))
     for videoname in videonames:

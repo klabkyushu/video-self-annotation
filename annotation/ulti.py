@@ -40,10 +40,13 @@ def copy_folder(input, output, index=0):
     return index
 
 
-def copy_model():
+def copy_model(model_path=''):
     info = load_json()
     from tools import convert_network
-    default_dir = os.path.join(info['dataset_dir'], '../Initial_model/initial_model.pth') # pre-train on BDD dataset
+    if model_path == '':
+        default_dir = os.path.join(info['dataset_dir'], '../Initial_model/initial_model.pth') # pre-train on BDD dataset
+    else:
+        default_dir = model_path
     if info['iter'] == 0:
         dir_input = default_dir
     else:
@@ -61,7 +64,7 @@ def copy_model():
     convert_network.convert_pytorch_to_pytorch(dir_input, dir_output)
 
 
-def visualize(dir_root, display=False, category_file=None):
+def visualize(dir_root, display=False, category_file=None, videonames=[]):
     info = load_json()
     palette = create_palette()
     colors = {}
@@ -76,7 +79,8 @@ def visualize(dir_root, display=False, category_file=None):
     else:
         categories = CATEGORIES
 
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
 
     tq = tqdm.tqdm(total=len(videonames))
@@ -129,9 +133,9 @@ def visualize(dir_root, display=False, category_file=None):
                 cv2.imshow('demo', image)
                 cv2.waitKey(0)
 
-def main():
+def main(videonames=[]):
     info = load_json()
-    visualize(os.path.join(info['dataset_dir'], info['experiment'], 'Smooth_label', 'Videos'))
+    visualize(os.path.join(info['dataset_dir'], info['experiment'], 'Smooth_label', 'Videos'), videonames=videonames)
 
 if __name__ == "__main__":
     main()

@@ -3,9 +3,10 @@ import tqdm
 import ulti
 from maskrcnn_benchmark.external.tracking.MOT.deep_sort.deep_sort_tracker import DeepSortTracker
 
-def main():
+def main(videonames=[]):
     info = ulti.load_json()
-    videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
+    if not videonames:
+        videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
 
     output_kf_bbox = False

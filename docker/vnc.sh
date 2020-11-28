@@ -25,4 +25,4 @@ startxfce4 &
 
 chmod +x $HOME/.vnc/xstartup
 
-/opt/TurboVNC/bin/vncserver -geometry 1920x1080
+/opt/TurboVNC/bin/vncserver -geometry 1600x900

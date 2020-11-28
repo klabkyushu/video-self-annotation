@@ -71,7 +71,7 @@ def create_attributes():
     outfile = ulti.write_json(info, file=os.path.join(output_dir, info['name'] + '.json'))
 
 
-def create_dataset_info(img_id_start=0, video_id_start=0, ann_id_start=0):
+def create_dataset_info(img_id_start=0, video_id_start=0, ann_id_start=0, folders=[]):
     info = ulti.load_json()
     dataset_dir = os.path.join(info['dataset_dir'])
     dataset_name = info['dataset_name']
@@ -92,8 +92,9 @@ def create_dataset_info(img_id_start=0, video_id_start=0, ann_id_start=0):
     dataset['info'] = info
 
     videos = []
-    data_dir = os.path.join(info['root_dir'], 'Images')
-    folders = [f for f in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, f))]
+    if not folders:
+        data_dir = os.path.join(info['root_dir'], 'Images')
+        folders = [f for f in os.listdir(data_dir) if os.path.isdir(os.path.join(data_dir, f))]
 
     for folder in sorted(folders):
         video = {}
