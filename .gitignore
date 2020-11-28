@@ -1,0 +1,9 @@
+annotation/CityScapes
+*.json
+**/__pycache__
+*.out
+*.pyc
+*.egg-info
+*.jpg
+*.png
+*.pth

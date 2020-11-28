@@ -1,0 +1,17 @@
+ninja
+yacs
+cython
+matplotlib
+tqdm
+opencv-python
+opencv-contrib-python
+scipy
+scikit-learn==0.22.2
+easydict
+shapely
+tensorboardX
+tensorboard
+tensorboard_logger
+future
+visdom
+Click

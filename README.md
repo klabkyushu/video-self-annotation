@@ -9,27 +9,112 @@ We tested the code on python 3.7, PyTorch 1.2.0 and CUDA 10.1
 
 ## Installation
 
-Require to install [Video Mask R-CNN](https://github.com/ltnghia/video-maskrcnn).
+Use the following command to clone this repository recursively.
 
-If you need to run Self-Annotation, please install 
-[Annotation Interface](https://github.com/ltnghia/video-object-annotation-interface) and interfere the training process in [run.sh](run.sh).
-
-
-## Prepare Data
-
-```
-mkdir -p -- CityScapes
-cd CityScapes
-mkdir -p -- val
-cd val
-mkdir -p -- Raw
-cd Raw
+```bash
+$ git clone --recursive https://github.com/klabkyushu/video-self-annotation.git
 ```
 
-Download [leftImg8bit_sequence_trainvaltest.zip (324GB)](https://www.cityscapes-dataset.com/downloads) and extract all sequences of val-set to CityScapes/val/Raw. 
-For example, ./CityScapes/val/Raw/frankfurt/frankfurt_000000_000275_leftImg8bit.jpg
+### Virtual Environment
 
-Download and extract [our pre-trained model](https://drive.google.com/file/d/10bqv7fUeUEdT1Q9T617QTcttit5EJi76/view?usp=sharing) to CityScapes/val/Initial_model
+For this system, it is recommanded to create a python virtual envrionment with virtualenv or conda.
+
+In the case of virtualenv, use the following command to create a virtual environment,
+
+```bash
+$ virtualenv -p python3.7 .venv
+```
+
+and enter the environment by
+
+```bash
+$ source .venv/bin/activate
+```
+
+### Dependencies
+
+Important dependencies:
+
+- Python 3.7
+- CUDA 10.1
+- PyTorch 1.2.0
+- opencv-python
+- cocoapi/PythonAPI
+- apex
+- video-maskrcnn
+
+**Please following the official instructions to install CUDA and PyTorch.**
+
+After CUDA and PyTorch are installed, run the script `install.sh` to install other dependencies.
+
+```bash
+$ chmod +x install.sh
+$ ./install.sh
+```
+
+Finally, install `video-self-annotation` by
+
+```bash
+$ pip install -e annotation
+$ annotate --help
+```
+
+## Docker
+
+If you prefer a docker container, you can build the image from docker/Dockerfile with the following command
+
+```bash
+$ docker build -t video-self-annotation -f docker/Dockerfile .
+```
+
+Since the image requires CUDA support, make sure [NVIDIA container runtime](https://github.com/NVIDIA/nvidia-docker) is enabled before running the container. Also, please set your UID, GID and ssh-key (optional) before running the container in `docker/entrypoint.sh` because all codes are mounted instead of copying to the image for fast changes.
+
+Run the container with
+
+```bash
+$ docker run -d --rm --gpus all --name annotation \
+  -v $(pwd):/home/user/video-self-annotation \
+  -p 8022:22 \
+  -p 8901:5901 \
+  video-self-annotation
+```
+
+Then you can ssh to the container by
+
+```bash
+$ ssh user@localhost -p 8022
+```
+
+To enable VNC, run the following after SSH to the container as `user`,
+
+```bash
+$ chmod +x docker/vnc.sh
+$ docker/vnc.sh
+```
+
+Then you can use TurboVNC viewer to view visual results by connecting to `localhost:8901`.
+
+Make sure to use `docker logs annotation` to check whether the container is ready before executing any annotation.
+
+## Quick Start
+
+First, download the example data `aachen` in `data`.
+
+```bash
+$ cd data
+$ chmod +x scripts/dl_aachen.sh
+$ scripts/dl_aachen.sh
+$ cd ..
+```
+
+Then, under the root directory, execute the annotation by
+
+```bash
+$ annotate run --images data/aachen \
+    --output ./results/aachen \
+    --seq-name aachen
+```
+
 
 ## Citations
 Please consider citing this project in your publications if it helps your research:
@@ -50,4 +135,3 @@ The code is released under the [Creative Commons Attribution-NonCommercial-Share
 ## Contact
 
 [Trung-Nghia Le](https://sites.google.com/view/ltnghia).
-

@@ -3,7 +3,7 @@ import tqdm
 import ulti
 from maskrcnn_benchmark.external.tracking.MOT.deep_sort.deep_sort_tracker import DeepSortTracker
 
-if __name__ == "__main__":
+def main():
     info = ulti.load_json()
     videonames = os.listdir(os.path.join(info['dataset_dir'], 'Images'))
     videonames = sorted(videonames)
@@ -58,6 +58,5 @@ if __name__ == "__main__":
                       tq_display=True,
                       reverse=True)
 
-
-
-
+if __name__ == "__main__":
+    main()
