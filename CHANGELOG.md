@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.0 20210428 - Zhang
+
+- Add `interface`
+- 
+
 ## 0.2.0
 
 - Add optional sequence selection to the following files:

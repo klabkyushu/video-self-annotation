@@ -4,12 +4,11 @@ import ulti
 import tqdm
 
 
-def create_train():
+def create_train(only_use_true_gt=False):
     info = ulti.load_json()
     dir_input = info['dataset_dir']
     dir_output = os.path.join(info['dataset_dir'], 'RCNN_data')
     video = info['annotated_video']
-    only_use_true_gt = False
     path = os.path.join(dir_input, 'Info', video + '.json')
 
     dataset = ulti.load_json(path)
@@ -19,7 +18,10 @@ def create_train():
     categories = ulti.load_json(dir_input + '/Categories/Road_Objects.json')
     categories = categories['category']
 
-    dataset = {'categories': categories, 'annotations': [], 'videos': [], 'images': []}
+    dataset['categories'] = categories
+    dataset['annotations'] = []
+    dataset['videos'] = []
+    dataset['images'] = []
 
     video_names = []
     video_ids = []
@@ -103,7 +105,8 @@ def create_test():
 
     categories = ulti.load_json(dir_input + '/Categories/Road_Objects.json')
     categories = categories['category']
-    dataset = {'categories': categories, 'annotations': [], 'videos': [], 'images': []}
+    dataset['categories'] = categories
+    dataset['annotations'] = []
     dataset['videos'] = videos
     dataset['images'] = images
     print('test: ', len(images))

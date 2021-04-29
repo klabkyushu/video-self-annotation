@@ -128,17 +128,21 @@ def remove(seq_name):
 @click.option('--all', is_flag=True, help='Run all sequences.')
 @click.option('--output', type=click.Path(), help='Output directory.', default='', required=True)
 @click.option('--model', type=click.Path(), help='Specify another model.')
-@click.option('--n-iters', type=int, help='The number of training iterations. (Only works when --train is specified)', default=3, show_default=True)
-@click.option('--train', is_flag=True, help='Peform training at the same time.')
-def run(seqs, all, output, model, n_iters, train):
+@click.option('--n-iters', type=int, help='The number of training iterations. (Only works when --training is specified)', default=3, show_default=True)
+@click.option('--training', is_flag=True, help='Peform training at the same time.')
+@click.option('--interactive', is_flag=True, help='Perform interactive correction.')
+def run(seqs, all, output, model, n_iters, training, interactive):
     '''Run annotation on a set of image sequences. To train a new model with the
-    image sequences, please specify the --train option.
+    image sequences, please specify the --training option.
     '''
     # If the output directory is not empty, abort.
+    if output == '':
+        print('Output directory is required. Aborted.')
+        return
     if os.path.exists(output) and len(os.listdir(output)) != 0:
         print("Output {} is not empty. Aborted.")
         return
-    if not train:
+    if not training:
         n_iters = 1
     if all and seqs:
         print('Attempt to run all sequences but seqs is specified. Aborted.')
@@ -173,23 +177,31 @@ def run(seqs, all, output, model, n_iters, train):
     create_dataset.create_dataset_info(folders=dir_names)
     create_dataset.create_train()
     create_dataset.create_test()
-    if not train:
+    if not training:
         run_iteration(0, 1, model_path=model, dir_names=dir_names, eval_only=True)
     else:
         for i in range(n_iters):
-            run_iteration(i, n_iters, model_path=model, dir_names=dir_names)
+            run_iteration(i, n_iters, model_path=model, dir_names=dir_names, interactive=interactive)
+            if interactive:
+                shutil.rmtree('CityScapes/val/Dataset/Annotations/Road_Objects')
+                shutil.copytree('CityScapes/val/Dataset/Entire_dataset/Iter_{}/Detection/Json'.format(i),
+                    'CityScapes/val/Dataset/Annotations/Road_Objects')
+                input('Frame Distance = {}\nPlease correct the labels and press any key to continue.'.format(int(233 / 24 / 2 ** i)))
+                shutil.rmtree('CityScapes/val/Dataset/Entire_dataset/Iter_{}/Detection/Json'.format(i))
+                shutil.copytree('CityScapes/val/Dataset/Annotations/Road_Objects',
+                    'CityScapes/val/Dataset/Entire_dataset/Iter_{}/Detection/Json'.format(i))
 
     # Annotation completes. Copy Smooth_label as the result to --output.
     os.chdir('../')
     os.makedirs(output, exist_ok=True)
     shutil.rmtree(output)
     shutil.copytree('annotation/CityScapes/val/Dataset/Entire_dataset/Iter_{}/Smooth_label'.format(n_iters - 1), output)
-    if train:
+    if training:
         shutil.copy('annotation/CityScapes/val/Dataset/Entire_dataset/Iter_{}/Detector/Iter{}.pth'.format(n_iters - 1, n_iters - 1), os.path.join(output, 'model.pth'))
 
     print('All done')
 
-def run_iteration(iter_id, n_iters, model_path='', dir_names=[], eval_only=False):
+def run_iteration(iter_id, n_iters, model_path='', dir_names=[], eval_only=False, interactive=False):
     clear_dir.main(model_path=model_path)
     rcnn_args = run_rcnn.convert_args()
     if iter_id > 0 and not eval_only:
@@ -208,7 +220,10 @@ def run_iteration(iter_id, n_iters, model_path='', dir_names=[], eval_only=False
     create_tubelets.smoothen_label(videonames=dir_names)
     filter_data.filter_data(videonames=dir_names)
     add_instances.run_trackers(videonames=dir_names)
-    convert_tubelet_to_coco_format.create_train()
+    if iter_id > 0 and interactive:
+        convert_tubelet_to_coco_format.create_train(only_use_true_gt=True)
+    else:
+        convert_tubelet_to_coco_format.create_train()
     convert_tubelet_to_coco_format.create_test()
     ulti.main(videonames=dir_names)
 
@@ -243,4 +258,5 @@ def play(seq_name, result_path):
             path_img = os.path.join(path_seq, fname)
             img = cv2.imread(path_img)
             cv2.imshow(window_name, img)
+            cv2.moveWindow(window_name, 0, 0)
             cv2.waitKey(33)

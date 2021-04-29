@@ -116,16 +116,16 @@ def visualize(dir_root, display=False, category_file=None, videonames=[]):
                     bottom_right = (
                     int(bbox['bbox']['x']) + int(bbox['bbox']['w']), int(bbox['bbox']['y']) + int(bbox['bbox']['h']))
                     image = cv2.rectangle(image, tuple(top_left), tuple(bottom_right),
-                                          tuple(colors[bbox['category_id']]), 5)
+                                          tuple(colors[bbox['category_id']]), 1)
 
                     label = categories[int(bbox['category_id'])]
                     txt = '{}:{}:{}'.format(label, bbox['track_id'], round(bbox['score'] * 100))
-                    t_size = cv2.getTextSize(txt, cv2.FONT_HERSHEY_PLAIN, 3, 2)[0]
+                    t_size = cv2.getTextSize(txt, cv2.FONT_HERSHEY_PLAIN, 1, 2)[0]
                     image = cv2.rectangle(image, tuple(top_left),
                                           tuple((top_left[0] + t_size[0] + 5, top_left[1] + int(t_size[1] * 1) + 10)),
                                           tuple(colors[bbox['category_id']]), -1)
                     cv2.putText(image, txt, (int(top_left[0] + 5), top_left[1] + t_size[1] + 5), cv2.FONT_HERSHEY_PLAIN,
-                                3, [0, 0, 0], 2)
+                                1, [0, 0, 0], 2)
 
             cv2.imwrite(os.path.join(dir_output, filename + '.jpg'), image)
             if display:

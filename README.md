@@ -42,8 +42,16 @@ Important dependencies:
 - cocoapi/PythonAPI
 - apex
 - video-maskrcnn
+- pyqt5-dev-tools
 
 **Please following the official instructions to install CUDA and PyTorch.**
+
+Install `pyqt5` by
+
+```bash
+$ sudo apt update
+$ sudo apt install pyqt5-dev-tools
+```
 
 After CUDA and PyTorch are installed, run the script `install.sh` to install other dependencies.
 

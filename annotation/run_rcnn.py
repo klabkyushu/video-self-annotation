@@ -154,7 +154,7 @@ def main(args):
     logger.info(args)
 
     logger.info("Collecting env info (might take some time)")
-    logger.info("\n" + collect_env_info())
+    # logger.info("\n" + collect_env_info())
 
     DatasetCatalog = None
     train_dataset = cfg.DATASETS.TRAIN[0]
@@ -191,13 +191,13 @@ def main(args):
                         round(16 * args.scale * iters_per_epoch))
     cfg.freeze()
 
-    logger.info("Loaded configuration file {}".format(args.config_file))
+    # logger.info("Loaded configuration file {}".format(args.config_file))
     with open(args.config_file, "r") as cf:
         config_str = "\n" + cf.read()
         # logger.info(config_str)
     # logger.info("Running with config:\n{}".format(cfg))
 
-    logger.info(DatasetCatalog)
+    # logger.info(DatasetCatalog)
 
     output_config_path = os.path.join(cfg.OUTPUT_DIR, 'config.yml')
     logger.info("Saving config into: {}".format(output_config_path))
@@ -206,6 +206,7 @@ def main(args):
 
     if args.train:
         args.skip_train = False
+        logger.info(args)
         model = network.train(cfg, args, DatasetCatalog)
 
     if args.test:

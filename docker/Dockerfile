@@ -23,16 +23,13 @@ WORKDIR /home/user/video-self-annotation
 # Install dependencies
 COPY requirements.txt install.sh ./
 COPY vendors ./vendors
+COPY interface ./interface
 RUN apt-get install -y \
     # OpenCV dependencies
-    libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev && \
-    # video-self-annotation dependencies
-    pip install -r requirements.txt && \
-    cd vendors/cocoapi/PythonAPI && \
-    python setup.py build_ext install && \
-    cd ../../apex && \
-    pip install -v --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" . && \ 
-    cd ../video-maskrcnn && \
-    python setup.py build develop
+    libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev \
+    # Interface dependencies
+    pyqt5-dev-tools && \
+    chmod +x ./install.sh && \
+    ./install.sh
 
 CMD [ "/bin/bash", "docker/entrypoint.sh" ]
